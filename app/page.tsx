@@ -1,103 +1,193 @@
-import Image from "next/image";
+"use client";
+/*eslint-disable */
+import React, { useState } from 'react';
+import { motion, useInView } from 'framer-motion';
+import {  ArrowRight, Menu, X } from 'lucide-react';
+  import GlowingButton from '../components/GlowingButton';
+import AboutSection from '@/components/AboutSection';
+import Footer from '@/components/Footer';
+import Image from 'next/image';
+import PricingSection from '@/components/PricingSection';
+import HowItWorks from '@/components/HowItWorks';
+import FeaturesSection from '@/components/FeaturesSection';
+import HeroSection from '@/components/HeroSection';
 
-export default function Home() {
+  import Link from "next/link";
+
+const SentimentDashboard = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // Animation variants
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, ease: "easeOut" }
+  };
+
+  type MotionDivProps = {
+    children: React.ReactNode;
+    className?: string;
+    variants?: any;
+    delay?: number;
+    [key: string]: any;
+  };
+
+  const MotionDiv: React.FC<MotionDivProps> = ({ children, className = "", variants = fadeInUp, delay = 0, ...props }) => {
+    const ref = React.useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+    return (
+      <motion.div
+        ref={ref}
+        className={className}
+        initial="initial"
+        animate={isInView ? "animate" : "initial"}
+        variants={variants}
+        transition={{ ...variants.transition, delay: delay / 1000 }}
+        {...props}
+      >
+        {children}
+      </motion.div>
+    );
+  };
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white overflow-hidden">
+      <div className="fixed inset-0 z-0">
+        <motion.div 
+          className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(59,130,246,0.1),transparent_50%)]"
+          animate={{ 
+            background: [
+              "radial-gradient(circle_at_20%_80%,rgba(59,130,246,0.1),transparent_50%)",
+              "radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.1),transparent_50%)",
+              "radial-gradient(circle_at_20%_80%,rgba(59,130,246,0.1),transparent_50%)"
+            ]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+        <motion.div 
+          className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(147,51,234,0.1),transparent_50%)]"
+          animate={{ 
+            background: [
+              "radial-gradient(circle_at_80%_20%,rgba(147,51,234,0.1),transparent_50%)",
+              "radial-gradient(circle_at_20%_80%,rgba(147,51,234,0.1),transparent_50%)",
+              "radial-gradient(circle_at_80%_20%,rgba(147,51,234,0.1),transparent_50%)"
+            ]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+        />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_40%,rgba(34,197,94,0.05),transparent_50%)]" />
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Navigation */}
+      <motion.nav 
+        className="fixed top-0 w-full z-50 backdrop-blur-xl bg-slate-950/20 border-b border-slate-800/30 py-2"
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="max-w-7xl mx-auto px-6 py-2">
+          <div className="flex items-center justify-between">
+            <motion.div 
+              className="flex items-center space-x-2"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Image
+                src="/S.png" alt="SentimAIn" width={36} height={32}/>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                SentimAIn
+              </span>
+            </motion.div>
+            
+            <motion.div 
+              className="hidden md:flex items-center space-x-8"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <a href="#features" className="hover:text-blue-400 transition-colors">Features</a>
+              <a href="#how-it-works" className="hover:text-blue-400 transition-colors">How It Works</a>
+              <a href="#pricing" className="hover:text-blue-400 transition-colors">Pricing</a>
+              <a href="#about" className="hover:text-blue-400 transition-colors">About</a>
+              <Link href="/analyze">
+              <GlowingButton primary>Get Started</GlowingButton>
+              </Link>
+            </motion.div>
+
+            <button 
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </motion.nav>
+
+      {/* Hero Section */}
+      <HeroSection />
+
+
+      {/* Features Section */}
+      <FeaturesSection />
+
+      {/* How It Works Section */}
+      <HowItWorks />
+
+      {/* Pricing Section */}
+      <PricingSection /> 
+
+      {/* About Section */}
+      <AboutSection />
+
+      {/* CTA Section */}
+      <section id="cta" className="py-20 px-6">
+        <MotionDiv className="max-w-4xl mx-auto text-center">
+          <motion.h2 
+            className="text-5xl font-bold mb-6"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Ready to Transform Your Business?
+            </span>
+          </motion.h2>
+          <motion.p 
+            className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Bergabunglah dengan ribuan perusahaan yang telah merasakan manfaat analisis sentimen AI untuk mengoptimalkan strategi bisnis mereka.
+          </motion.p>
+          
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <GlowingButton primary className="text-lg px-12 py-5">
+              <span className="flex items-center gap-2">
+                Start Free Trial <ArrowRight className="w-5 h-5" />
+              </span>
+            </GlowingButton>
+            <GlowingButton className="text-lg px-12 py-5">
+              Schedule Demo
+            </GlowingButton>
+          </motion.div>
+        </MotionDiv>
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
-}
+};
+
+export default SentimentDashboard;
