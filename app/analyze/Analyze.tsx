@@ -341,7 +341,7 @@ export default function Analyze() {
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const API_BASE_URL = "https://arjunaadlina-sentimainbe.hf.space"
 
 
   // Effect to capture URL from search parameters
