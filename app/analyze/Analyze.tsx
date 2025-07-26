@@ -341,7 +341,7 @@ export default function Analyze() {
   const [error, setError] = useState<string | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const API_BASE_URL = "https://arjunaadlina-sentimainbe.hf.space"
+  const API_BASE_URL = "https://sentimain-be-production.up.railway.app"
 
 
   // Effect to capture URL from search parameters
@@ -389,36 +389,37 @@ export default function Analyze() {
     }
   };
 
-const startPolling = (id: string) => {
-  // Clear previous polling interval if exists
-  if (intervalRef.current) {
-    clearInterval(intervalRef.current);
-  }
+  const startPolling = (id: string) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
 
-  intervalRef.current = setInterval(async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/status/${id}`);
-      if (!response.ok) throw new Error('Failed to fetch status');
+    intervalRef.current = setInterval(async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/status/${id}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch status');
+        }
 
-      const status: TaskStatus = await response.json();
-      setTaskStatus(status);
-      console.log(`Status for ${id}:`, status);
+        const status: TaskStatus = await response.json();
+        setTaskStatus(status);
 
-      if (status.status === 'completed' || status.status === 'error') {
+        if (status.status === 'completed' || status.status === 'error') {
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+          }
+          setIsAnalyzing(false);
+        }
+      } catch (err) {
+        console.error('Polling error:', err);
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
-          intervalRef.current = null;
         }
+        setIsAnalyzing(false);
+        setError('Failed to get status updates');
       }
-    } catch (err) {
-      console.error(`Polling error for ${id}:`, err);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    }
-  }, 1000);
-};
+    }, 1000);
+  };
 
 
   useEffect(() => {
