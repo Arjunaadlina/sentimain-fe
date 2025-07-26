@@ -50,11 +50,11 @@ function AboutSection() {
             <MotionDiv>
               <h2 className="text-5xl font-bold mb-6">
                 <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  Mengapa SentimentAI?
+                  Mengapa SentimAIn?
                 </span>
               </h2>
               <p className="text-xl text-slate-300 mb-8 leading-relaxed">
-                SentimentAI menggunakan teknologi Deep Learning CNN terdepan untuk memberikan analisis sentimen yang paling akurat di industri. Dengan otomasi scraping yang canggih, kami membantu bisnis memahami persepsi pelanggan secara real-time.
+                SentimAIn menggunakan teknologi Deep Learning CNN terdepan untuk memberikan analisis sentimen yang paling akurat di industri. Dengan otomasi scraping yang canggih, kami membantu bisnis memahami persepsi pelanggan secara real-time.
               </p>
               
               <div className="space-y-6">
