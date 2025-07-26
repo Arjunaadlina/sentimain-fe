@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'YouTube Sentiment Analysis',
-  description: 'Analyze YouTube video comments sentiment using machine learning',
+  title: 'SentimAIn',
+  description: 'Revolusi kebijakan berbasis opini publik digital dengan teknologi Deep Learning CNN secara real-time.',
 }
 
 export default function RootLayout({
